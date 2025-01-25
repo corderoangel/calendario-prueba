@@ -29,7 +29,7 @@ const CalendarView = () => {
 					<DayPilotNavigator selectMode={"Day"} onTimeRangeSelected={handleDateSelect} />
 				</div>
 				<div>
-					<DayPilotCalendar {...config} events={eventos} />
+					<DayPilotCalendar {...config} events={eventos} startDate={selectedDate} />
 				</div>
 				<Modal open={openModal} onClose={() => setOpenModal(false)}>
 					<EventForm date={selectedDate} onClose={() => setOpenModal(false)} />
