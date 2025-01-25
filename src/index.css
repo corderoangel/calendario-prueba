@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+/* styles.css */
+.day-with-event {
+	background-color: #ffd700 !important; /* Fondo amarillo */
+	border-radius: 50%; /* Opcional: redondear el fondo */
+	color: #000; /* Texto negro */
+	font-weight: bold;
+}
