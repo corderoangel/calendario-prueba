@@ -1,15 +1,19 @@
 import { DayPilotCalendar, DayPilotNavigator } from "@daypilot/daypilot-lite-react";
 import { useState, useMemo } from "react";
 import Modal from "./Modal";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Navbar from "./Navbar";
 import EventForm from "./EventForm";
+import { deleteEvent } from "../features/calendar/eventosSlice";
 
 const CalendarView = () => {
 	const [openModal, setOpenModal] = useState(false);
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [selectedEvent, setSelectedEvent] = useState(null);
 	const eventos = useSelector((state) => state.eventos.eventos);
+	// const [calendar, setCalendar] = useState(null);
+
+	const dispatch = useDispatch();
 
 	const config = {
 		viewType: "Day",
@@ -22,6 +26,29 @@ const CalendarView = () => {
 		},
 		onBeforeEventRender: (args) => {
 			args.data.text = args.data.title + " - " + args.data.description;
+			args.data.areas = [
+				{
+					top: 3,
+					right: 20,
+					width: 20,
+					height: 20,
+					action: "None",
+					html: `<div style='color: #000000; 
+								font-size: 14px; 
+								background-color:rgb(247, 80, 80); 
+								text-align: center;
+								border-radius: 10px'>
+									X
+								</div>`,
+
+					toolTip: "Eliminar evento",
+					onClick: (args) => {
+						console.log(args.source.data.id);
+
+						dispatch(deleteEvent(args.source.data.id)); // Editar evento existente
+					},
+				},
+			];
 		},
 	};
 

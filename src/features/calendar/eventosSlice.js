@@ -10,7 +10,7 @@ const eventosSlice = createSlice({
 				description: "Descripción de evento #1",
 				start: "2025-01-24T17:30:00",
 				end: "2025-01-24T19:30:00",
-				backColor: "#6aa84f",
+				// backColor: "#6aa84f",
 			},
 		],
 	},
@@ -23,19 +23,17 @@ const eventosSlice = createSlice({
 			const index = state.eventos.findIndex((event) => event.id === id);
 			if (index !== -1) {
 				state.eventos[index] = { ...state.eventos[index], ...updatedEvent };
-				console.log("Eventos actualizados:", state.eventos); // Muestra los eventos actualizados
 			} else {
-				console.log(`Evento con id ${id} no encontrado`);
+				console.error(`Evento con id ${id} no encontrado`);
 			}
-			// console.log("eventos");
-			// console.log();
 		},
-		// deleteEvent: (state, action) => {
-		// 	const id = action.payload;
-		// 	state.eventos = state.eventos.filter((event) => event.id !== id); // Elimina el evento
-		// },
+		deleteEvent: (state, action) => {
+			const id = action.payload;
+
+			state.eventos = state.eventos.filter((event) => event.id !== id); // Elimina el evento
+		},
 	},
 });
 
-export const { addEvent, editEvent /* deleteEvent*/ } = eventosSlice.actions;
+export const { addEvent, editEvent, deleteEvent } = eventosSlice.actions;
 export default eventosSlice.reducer;
