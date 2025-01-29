@@ -54,9 +54,30 @@ const EventForm = ({ date, onClose, event }) => {
 			return;
 		}
 
-		if (!event && isOverlapping(timeStart, timeEnd)) {
-			setError("El intervalo de tiempo se solapa con otro evento.");
-			return;
+		// Validación para evitar solapamiento en eventos existentes (crear y actualizar)
+		if (isOverlapping(timeStart, timeEnd)) {
+			// Si se está editando un evento, se excluye a sí mismo de la validación
+			const parsedEvent = event ? JSON.parse(event) : null;
+			const overlapping = eventos.some((ev) => {
+				const eventStart = new Date(ev.start);
+				const eventEnd = new Date(ev.end);
+				const newStart = new Date(`${date}T${timeStart}:00`);
+				const newEnd = new Date(`${date}T${timeEnd}:00`);
+				// Excluye el evento actual durante la validación (solo en modo edición)
+				if (parsedEvent && parsedEvent.id === ev.id) return false;
+
+				// Verifica solapamiento
+				return (
+					(newStart >= eventStart && newStart < eventEnd) || // Inicio dentro de otro evento
+					(newEnd > eventStart && newEnd <= eventEnd) || // Fin dentro de otro evento
+					(newStart <= eventStart && newEnd >= eventEnd) // Cubriendo otro evento
+				);
+			});
+
+			if (overlapping) {
+				setError("El intervalo de tiempo se superpone a otro evento.");
+				return;
+			}
 		}
 
 		const newEvent = {
@@ -65,6 +86,7 @@ const EventForm = ({ date, onClose, event }) => {
 			description,
 			start: `${date}T${timeStart}:00`,
 			end: `${date}T${timeEnd}:00`,
+			backColor: "#30B0C7",
 		};
 
 		if (event) {
