@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Navbar from "./Navbar";
 import EventForm from "./EventForm";
 import { deleteEvent } from "../features/calendar/eventosSlice";
+import { Trash } from "lucide-react";
+import ReactDOMServer from "react-dom/server";
 
 const CalendarView = () => {
 	// Estado para controlar el modal
@@ -37,7 +39,20 @@ const CalendarView = () => {
 			onBeforeEventRender: (args) => {
 				// args.data.text = `${args.data.title} - ${args.data.description}`;
 				const isSmallScreenWeekView = viewType === "Week" && window.innerWidth < 768;
-				args.data.text = isSmallScreenWeekView ? "" : `${args.data.title} - ${args.data.description}`;
+				if (isSmallScreenWeekView) {
+					args.data.text = ""; // Ocultar texto en pantallas pequeñas en vista "Semana"
+				} else {
+					args.data.html = `<div style="
+						color: #ffffff; /* Cambia el color del texto */
+						font-size: 14px; /* Cambia el tamaño del texto */
+						font-weight: bold; /* Opcional: hacer el texto negrita */
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;">
+						${args.data.title} - ${args.data.description}
+					</div>`;
+				}
+				// args.data.text = isSmallScreenWeekView ? "" : `${args.data.title} - ${args.data.description}`;
 				args.data.areas = [
 					{
 						top: 4,
@@ -104,14 +119,13 @@ const CalendarView = () => {
 						}}
 					/>
 					{/* Select para cambiar el tipo de vista */}
-					<div className="mt-4">
-						<label htmlFor="viewType" className="block mb-2 text-sm font-medium text-gray-700">
+					<div className="mt-2 flex items-center md:flex-col">
+						<label htmlFor="viewType" className="block mb-2 text-sm font-medium text-gray-700 mr-2">
 							Tipo de vista
 						</label>
 						<select id="viewType" className="p-2 border border-gray-300 rounded-md" value={viewType} onChange={handleViewTypeChange}>
 							<option value="Day">Día</option>
 							<option value="Week">Semana</option>
-							<option value="Month">Mes</option>
 						</select>
 					</div>
 				</div>
