@@ -2,8 +2,7 @@
 
 /* styles.css */
 .day-with-event {
-	background-color: #30b0c7 !important; /* Fondo amarillo */
-	border-radius: 50%; /* Opcional: redondear el fondo */
-	color: #000; /* Texto negro */
+	background-color: #30b0c7 !important;
+	border-radius: 50%;
 	font-weight: bold;
 }

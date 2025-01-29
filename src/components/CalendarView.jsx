@@ -21,6 +21,8 @@ const CalendarView = () => {
 		() => ({
 			viewType: "Day",
 			timeFormat: "Clock24Hours",
+			heightSpec: "Full",
+
 			onEventClick: (args) => {
 				const event = eventos.find((e) => e.id === args.e.data.id);
 				if (event) {
@@ -75,8 +77,8 @@ const CalendarView = () => {
 	return (
 		<>
 			<Navbar />
-			<div className="flex">
-				<div>
+			<div className="flex flex-col md:flex-row h-screen">
+				<div className="flex justify-center">
 					<DayPilotNavigator
 						selectMode={"Day"}
 						days={30} // Muestra un rango de 30 días
@@ -92,13 +94,35 @@ const CalendarView = () => {
 						}}
 					/>
 				</div>
-				<div>
+				<div className="flex-1 h-[calc(100vh-4rem)] overflow-y-auto">
+					<DayPilotCalendar {...calendarConfig} events={eventos} startDate={selectedDate} height={850} />
+				</div>
+			</div>
+			{/* <div className="flex flex-col md:flex-row ">
+				<div className="flex justify-center items-start md:items-center p-4">
+					<DayPilotNavigator
+						selectMode={"Day"}
+						days={30} // Muestra un rango de 30 días
+						onTimeRangeSelected={handleDateSelect}
+						onBeforeCellRender={(args) => {
+							const start = new Date(args.cell.day.value); // Convertir a un formato legible
+							if (!isNaN(start.getTime())) {
+								const dateOnly = start.toISOString().split("T")[0];
+								if (eventDates.includes(dateOnly)) {
+									args.cell.cssClass = "day-with-event"; // Clase css personalizada
+								}
+							}
+						}}
+					/>
+				</div>
+				<div className="flex-1 overflow-y-auto h-[calc(100vh-4rem)]">
 					<DayPilotCalendar {...calendarConfig} events={eventos} startDate={selectedDate} />
 				</div>
-				<Modal open={openModal} onClose={() => setOpenModal(false)}>
-					<EventForm date={selectedDate} event={selectedEvent || null} onClose={() => setOpenModal(false)} />
-				</Modal>
-			</div>
+			</div> */}
+
+			<Modal open={openModal} onClose={() => setOpenModal(false)}>
+				<EventForm date={selectedDate} event={selectedEvent || null} onClose={() => setOpenModal(false)} />
+			</Modal>
 		</>
 	);
 };
