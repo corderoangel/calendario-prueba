@@ -102,9 +102,20 @@ const EventForm = ({ date, onClose, event }) => {
 				<textarea name="description" placeholder="Descripción" value={formState.description} onChange={handleInputChange} className="w-full h-30 p-2 border rounded" />
 			</div>
 
-			<div className="mt-2 flex gap-2">
-				<input type="time" name="timeStart" value={formState.timeStart} onChange={handleInputChange} className="p-2 border rounded" />
-				<input type="time" name="timeEnd" value={formState.timeEnd} onChange={handleInputChange} className="p-2 border rounded" />
+			<div className="mt-2 flex gap-6 ">
+				<div className="flex flex-col">
+					<label htmlFor="timeStart" className="text-sm font-medium text-gray-700 mb-1">
+						Hora de inicio
+					</label>
+					<input type="time" id="timeStart" name="timeStart" value={formState.timeStart} onChange={handleInputChange} className="p-2 border rounded" />
+				</div>
+
+				<div className="flex flex-col">
+					<label htmlFor="timeEnd" className="text-sm font-medium text-gray-700 mb-1">
+						Hora de fin
+					</label>
+					<input type="time" id="timeEnd" name="timeEnd" value={formState.timeEnd} onChange={handleInputChange} className="p-2 border rounded" />
+				</div>
 			</div>
 
 			<div className="mt-4 flex justify-between">
