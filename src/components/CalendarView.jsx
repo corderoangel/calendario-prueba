@@ -12,6 +12,9 @@ const CalendarView = () => {
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [selectedEvent, setSelectedEvent] = useState(null);
 
+	// Nuevo estado para el tipo de vista
+	const [viewType, setViewType] = useState("Day"); // "Day" o "Week"
+
 	// Acceso a eventos desde Redux
 	const eventos = useSelector((state) => state.eventos.eventos);
 	const dispatch = useDispatch();
@@ -19,7 +22,7 @@ const CalendarView = () => {
 	// Configuración del calendario
 	const calendarConfig = useMemo(
 		() => ({
-			viewType: "Day",
+			viewType: viewType,
 			timeFormat: "Clock24Hours",
 			heightSpec: "Full",
 
@@ -32,11 +35,13 @@ const CalendarView = () => {
 				}
 			},
 			onBeforeEventRender: (args) => {
-				args.data.text = `${args.data.title} - ${args.data.description}`;
+				// args.data.text = `${args.data.title} - ${args.data.description}`;
+				const isSmallScreenWeekView = viewType === "Week" && window.innerWidth < 768;
+				args.data.text = isSmallScreenWeekView ? "" : `${args.data.title} - ${args.data.description}`;
 				args.data.areas = [
 					{
-						top: 3,
-						right: 20,
+						top: 4,
+						right: 10,
 						width: 20,
 						height: 20,
 						action: "None",
@@ -58,7 +63,7 @@ const CalendarView = () => {
 				];
 			},
 		}),
-		[eventos, dispatch]
+		[eventos, dispatch, viewType]
 	);
 
 	// Fechas únicas con eventos
@@ -74,11 +79,16 @@ const CalendarView = () => {
 		setOpenModal(true);
 	}, []);
 
+	// Manejar cambio de tipo de vista
+	const handleViewTypeChange = (event) => {
+		setViewType(event.target.value); // Actualiza el estado del tipo de vista
+	};
+
 	return (
 		<>
 			<Navbar />
 			<div className="flex flex-col md:flex-row h-screen">
-				<div className="flex justify-center">
+				<div className="flex flex-col items-center">
 					<DayPilotNavigator
 						selectMode={"Day"}
 						days={30} // Muestra un rango de 30 días
@@ -93,32 +103,22 @@ const CalendarView = () => {
 							}
 						}}
 					/>
+					{/* Select para cambiar el tipo de vista */}
+					<div className="mt-4">
+						<label htmlFor="viewType" className="block mb-2 text-sm font-medium text-gray-700">
+							Tipo de vista
+						</label>
+						<select id="viewType" className="p-2 border border-gray-300 rounded-md" value={viewType} onChange={handleViewTypeChange}>
+							<option value="Day">Día</option>
+							<option value="Week">Semana</option>
+							<option value="Month">Mes</option>
+						</select>
+					</div>
 				</div>
 				<div className="flex-1 h-[calc(100vh-4rem)] overflow-y-auto">
 					<DayPilotCalendar {...calendarConfig} events={eventos} startDate={selectedDate} height={850} />
 				</div>
 			</div>
-			{/* <div className="flex flex-col md:flex-row ">
-				<div className="flex justify-center items-start md:items-center p-4">
-					<DayPilotNavigator
-						selectMode={"Day"}
-						days={30} // Muestra un rango de 30 días
-						onTimeRangeSelected={handleDateSelect}
-						onBeforeCellRender={(args) => {
-							const start = new Date(args.cell.day.value); // Convertir a un formato legible
-							if (!isNaN(start.getTime())) {
-								const dateOnly = start.toISOString().split("T")[0];
-								if (eventDates.includes(dateOnly)) {
-									args.cell.cssClass = "day-with-event"; // Clase css personalizada
-								}
-							}
-						}}
-					/>
-				</div>
-				<div className="flex-1 overflow-y-auto h-[calc(100vh-4rem)]">
-					<DayPilotCalendar {...calendarConfig} events={eventos} startDate={selectedDate} />
-				</div>
-			</div> */}
 
 			<Modal open={openModal} onClose={() => setOpenModal(false)}>
 				<EventForm date={selectedDate} event={selectedEvent || null} onClose={() => setOpenModal(false)} />

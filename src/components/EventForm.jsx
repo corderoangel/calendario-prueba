@@ -4,6 +4,7 @@ import { addEvent, editEvent } from "../features/calendar/eventosSlice";
 
 const EventForm = ({ date, onClose, event }) => {
 	const dispatch = useDispatch();
+
 	const eventos = useSelector((state) => state.eventos.eventos);
 
 	// Estados locales para manejar los valores del formulario
