@@ -35,7 +35,6 @@ const CalendarView = () => {
 				}
 			},
 			onBeforeEventRender: (args) => {
-				// args.data.text = `${args.data.title} - ${args.data.description}`;
 				const isSmallScreenWeekView = viewType === "Week" && window.innerWidth < 768;
 				if (isSmallScreenWeekView) {
 					args.data.text = ""; // Ocultar texto en pantallas pequeñas en vista "Semana"
@@ -50,7 +49,6 @@ const CalendarView = () => {
 						${args.data.title} - ${args.data.description}
 					</div>`;
 				}
-				// args.data.text = isSmallScreenWeekView ? "" : `${args.data.title} - ${args.data.description}`;
 				args.data.areas = [
 					{
 						top: 4,
