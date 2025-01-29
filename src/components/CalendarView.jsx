@@ -56,9 +56,9 @@ const CalendarView = () => {
 						width: 20,
 						height: 20,
 						action: "None",
-						html: `<div style='color: #000000; 
-						  font-size: 14px; 
-						  background-color:rgb(247, 80, 80); 
+						html: `<div style='color: #000000;
+						  font-size: 14px;
+						  background-color:rgb(247, 80, 80);
 						  text-align: center;
 						  border-radius: 10px'>X</div>`,
 						toolTip: "Eliminar evento",
@@ -95,6 +95,14 @@ const CalendarView = () => {
 		setViewType(event.target.value); // Actualiza el estado del tipo de vista
 	};
 
+	// Manejar búsqueda de una fecha ingresada por el usuario
+	// const handleDateSearch = (e) => {
+	// 	const dateOnly = e.target.value;
+	// 	if (dateOnly) {
+	// 		setSelectedDate(dateOnly);
+	// 	}
+	// };
+
 	return (
 		<>
 			<Navbar />
@@ -114,6 +122,10 @@ const CalendarView = () => {
 							}
 						}}
 					/>
+					{/* Campo de entrada para buscar una fecha */}
+					{/* <div className="mt-4">
+						<input type="date" className="p-2 border border-gray-300 rounded-md" onChange={handleDateSearch} />
+					</div> */}
 					{/* Select para cambiar el tipo de vista */}
 					<div className="mt-2 flex items-center md:flex-col">
 						<label htmlFor="viewType" className="block mb-2 text-sm font-medium text-gray-700 mr-2">
