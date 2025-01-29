@@ -5,8 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import Navbar from "./Navbar";
 import EventForm from "./EventForm";
 import { deleteEvent } from "../features/calendar/eventosSlice";
-import { Trash } from "lucide-react";
-import ReactDOMServer from "react-dom/server";
 
 const CalendarView = () => {
 	// Estado para controlar el modal
