@@ -2,6 +2,10 @@
 
 Un proyecto de calendario desarrollado con React, Vite, Redux, DayPilot for React y Lucide React, que permite la gestión de eventos diarios y semanales con una interfaz interactiva y moderna.
 
+### 🚀 Diseño en figma
+
+https://www.figma.com/design/QXEUicDnjD7d0tETrU2IIp/Calendario?node-id=0-1&t=7ppU0ATn1UIYkZRq-1
+
 ### 🚀 Tecnologías utilizadas
 
 -   ⚛ React – Biblioteca para construir interfaces de usuario.
@@ -49,10 +53,4 @@ El proyecto estará disponible en: http://localhost:5173
 -   Eventos dinámicos con DayPilot, incluyendo:
     -   Click en un evento para editarlo.
     -   Mini calendario sincronizado con la vista principal.
-    -   Eliminación de eventos con confirmación.
-
-### 📝 Próximas mejoras
-
--   Soporte para múltiples usuarios.
--   Persistencia de datos en una base de datos o localStorage.
--   Notificaciones y recordatorios de eventos.
+    -   Eliminación de eventos.
